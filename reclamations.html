@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<title>Retours et réclamations – 1MCVA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout : colonne de lecture unique, barre de navigation collante par chapitres, activités en "fiches" bordées, codes en style ticket de caisse */
+:root{
+  --bg:#f3f6f7; --surface:#ffffff; --surface-2:#e7eef0; --ink:#14262d; --muted:#4f6670; --line:#c9d6da;
+  --accent:#0f6e74; --accent-ink:#ffffff; --tag:#e2860c; --tag-soft:#fbead2;
+  --ok:#1f7a3a; --ok-soft:#dcf1e2; --ko:#b3261e; --ko-soft:#f8dedb; --warn-soft:#fff3d6;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1a1e; --surface:#172529; --surface-2:#1f3137; --ink:#e4eef0; --muted:#9fb5bc; --line:#2e454c;
+  --accent:#4fb8be; --accent-ink:#06282b; --tag:#f0a33d; --tag-soft:#3a2a12;
+  --ok:#6fd08c; --ok-soft:#173a24; --ko:#ff8a80; --ko-soft:#43201d; --warn-soft:#3a3115; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0f1a1e; --surface:#172529; --surface-2:#1f3137; --ink:#e4eef0; --muted:#9fb5bc; --line:#2e454c;
+  --accent:#4fb8be; --accent-ink:#06282b; --tag:#f0a33d; --tag-soft:#3a2a12;
+  --ok:#6fd08c; --ok-soft:#173a24; --ko:#ff8a80; --ko-soft:#43201d; --warn-soft:#3a3115; color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+.wrap{max-width:820px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,6vw,3rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,4.2vw,2rem);font-weight:800}
+h3{font-size:1.2rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--tag);outline-offset:2px}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.stack-lg{display:flex;flex-direction:column;gap:28px}
+
+/* En-tête */
+header.hero{padding-block:36px 24px;display:flex;flex-direction:column;gap:14px}
+.hero .label{display:inline-flex;align-self:flex-start;gap:8px;align-items:center;background:var(--tag-soft);color:var(--ink);border:1.5px dashed var(--tag);padding:4px 12px;border-radius:4px;font-family:var(--f-mono);font-size:.82rem}
+.hero p.lead{font-size:1.12rem;color:var(--muted);max-width:62ch}
+
+/* Nav */
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px}
+nav.toc ul{list-style:none;margin:0;padding:0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.toc a{display:block;white-space:nowrap;text-decoration:none;color:var(--ink);font-size:.9rem;font-weight:600;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+section.chap{padding-top:44px;display:flex;flex-direction:column;gap:18px;scroll-margin-top:64px}
+.chap-head{display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--ink);padding-top:12px}
+
+/* Boîtes */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.def{border-left:5px solid var(--accent)}
+.retenir{background:var(--tag-soft);border:1.5px dashed var(--tag)}
+.law{background:var(--surface-2);border:none}
+.law .ref{font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+ul.clean{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-family:var(--f-display);font-weight:700;background:var(--surface-2)}
+tr:last-child td{border-bottom:none}
+.num{font-variant-numeric:tabular-nums}
+
+/* Dialogue */
+.dialog{display:flex;flex-direction:column;gap:8px}
+.bubble{padding:10px 14px;border-radius:12px;max-width:88%}
+.bubble.c{background:var(--surface-2);align-self:flex-start}
+.bubble.v{background:var(--accent);color:var(--accent-ink);align-self:flex-end}
+.bubble b{font-family:var(--f-mono);font-size:.75rem;display:block;opacity:.8}
+.verdict{font-weight:700}
+.verdict.good{color:var(--ok)} .verdict.bad{color:var(--ko)}
+
+/* Ticket */
+.ticket{font-family:var(--f-mono);font-size:.88rem;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px;position:relative;line-height:1.5}
+.ticket::before,.ticket::after{content:"";position:absolute;left:0;right:0;height:8px;background:radial-gradient(circle at 6px -2px,var(--bg) 6px,transparent 6.5px) repeat-x;background-size:12px 8px}
+.ticket::before{top:-1px}
+.ticket::after{bottom:-1px;transform:rotate(180deg)}
+.ticket .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px dotted var(--line);padding-block:4px}
+.ticket .row span:first-child{color:var(--muted)}
+
+/* Steps */
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+ol.steps li::before{content:counter(s);font-family:var(--f-display);font-weight:800;font-size:1.4rem;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+ol.steps li div{min-width:0}
+
+/* Activités */
+.activity{background:var(--surface);border:2px solid var(--ink);border-radius:12px;overflow:hidden}
+.activity > .act-head{background:var(--ink);color:var(--bg);padding:12px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.activity > .act-head h3{color:var(--bg)}
+.activity > .act-head .pts{font-family:var(--f-mono);font-size:.85rem}
+.act-body{padding:18px;display:flex;flex-direction:column;gap:14px}
+.item{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid var(--line);border-radius:8px;min-width:0}
+.item.ok{background:var(--ok-soft);border-color:var(--ok)}
+.item.ko{background:var(--ko-soft);border-color:var(--ko)}
+.item .fb{font-size:.92rem}
+.item .fb strong{display:inline-block;margin-right:4px}
+.item.ok .fb strong{color:var(--ok)} .item.ko .fb strong{color:var(--ko)}
+select,input[type=text],input[type=password],textarea{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;max-width:100%}
+select{width:100%}
+textarea{width:100%;min-height:220px;resize:vertical}
+input[type=text]{width:100%}
+.radio{display:flex;gap:10px;align-items:flex-start;padding:6px 8px;border-radius:6px;cursor:pointer}
+.radio:hover{background:var(--surface-2)}
+.radio input{margin-top:5px;accent-color:var(--accent)}
+.btn{font:inherit;font-weight:700;border:none;border-radius:8px;padding:10px 18px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.danger{background:var(--ko);color:#fff}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.score{font-family:var(--f-mono);font-weight:600;padding:6px 12px;border-radius:6px;background:var(--surface-2)}
+.notice{background:var(--warn-soft);border-radius:8px;padding:10px 14px;font-size:.95rem}
+.calc-row{display:grid;grid-template-columns:1fr 130px;gap:10px;align-items:center}
+@media (max-width:480px){.calc-row{grid-template-columns:1fr}}
+
+/* Identité élève */
+.idcard{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.idcard label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.92rem}
+
+/* Code */
+.codeout{font-family:var(--f-mono);font-size:.78rem;word-break:break-all;white-space:pre-wrap;background:var(--surface-2);padding:12px;border-radius:8px;max-height:180px;overflow:auto}
+.progress{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.progress div{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.9rem;display:flex;justify-content:space-between;gap:6px;background:var(--surface)}
+.chip{font-family:var(--f-mono);font-size:.78rem;padding:1px 8px;border-radius:999px}
+.chip.done{background:var(--ok-soft);color:var(--ok)} .chip.todo{background:var(--surface-2);color:var(--muted)}
+
+/* Prof */
+#prof .tablewrap table{font-size:.88rem;min-width:860px}
+.note-in{width:64px;text-align:center}
+details.redac summary{cursor:pointer;color:var(--accent);font-weight:600}
+details.redac pre{white-space:pre-wrap;font-family:var(--f-body);background:var(--surface-2);padding:10px;border-radius:6px;margin:6px 0 0}
+.badge-ok{color:var(--ok);font-weight:700} .badge-ko{color:var(--ko);font-weight:700}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="label">1re Bac Pro MCV A · Animation et gestion de l'espace commercial</span>
+  <p class="eyebrow">Professeure : LEGER Isabelle</p>
+  <h1>Traiter les retours et les réclamations</h1>
+  <p class="lead">Accueillir un client mécontent, connaître ses droits, proposer la bonne solution et assurer le suivi. Cours, exemples, 6 activités, un test final et une synthèse.</p>
+  <div class="box">
+    <p class="eyebrow">Avant de commencer – identifie-toi</p>
+    <div class="idcard">
+      <label for="nom">Nom<input type="text" id="nom" autocomplete="family-name"></label>
+      <label for="prenom">Prénom<input type="text" id="prenom" autocomplete="given-name"></label>
+      <label for="classe">Classe<input type="text" id="classe" value="1MCVA"></label>
+    </div>
+    <p class="notice">Tes réponses restent enregistrées sur cet appareil. Chaque activité ne peut être validée <strong>qu'une seule fois</strong> : réfléchis avant de cliquer sur « Valider ». À la fin, génère ton code et envoie-le à ton professeur.</p>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sommaire">
+  <ul>
+    <li><a href="#situation">Situation</a></li>
+    <li><a href="#notions">1. Notions</a></li>
+    <li><a href="#droit">2. Cadre légal</a></li>
+    <li><a href="#methode">3. Méthode</a></li>
+    <li><a href="#solutions">4. Solutions & écrit</a></li>
+    <li><a href="#suivi">5. Suivi</a></li>
+    <li><a href="#test">Test final</a></li>
+    <li><a href="#synthese">Synthèse</a></li>
+    <li><a href="#rendu">Mon code</a></li>
+    <li><a href="#prof">Enseignant</a></li>
+  </ul>
+</nav>
+
+<!-- SITUATION -->
+<section class="chap" id="situation">
+  <div class="chap-head"><span class="eyebrow">Situation professionnelle</span><h2>Samedi, 15 h, magasin Rayon Vert</h2></div>
+  <p>Tu es en période de formation chez <strong>Rayon Vert</strong>, magasin d'articles de sport (entreprise fictive) qui vend aussi en ligne. Ta tutrice, Mme Benali, responsable de rayon, te confie l'accueil du comptoir « Service clients » cet après-midi.</p>
+  <div class="grid2">
+    <div class="box"><p class="eyebrow">Client 1</p><p>Un client rapporte une paire de chaussures de running achetée il y a 3 mois : la semelle se décolle.</p></div>
+    <div class="box"><p class="eyebrow">Client 2</p><p>Une cliente veut se faire rembourser un maillot acheté hier en magasin : la couleur ne lui plaît plus.</p></div>
+    <div class="box"><p class="eyebrow">Client 3</p><p>Un client, très énervé, a commandé un vélo d'appartement sur le site : livré avec 10 jours de retard et une pièce manquante.</p></div>
+  </div>
+  <div class="box retenir"><p><strong>Problématique :</strong> comment accueillir ces clients, savoir ce que la loi impose (ou non) au magasin, et leur apporter une réponse qui les satisfait tout en protégeant l'entreprise ?</p></div>
+</section>
+
+<!-- 1. NOTIONS -->
+<section class="chap" id="notions">
+  <div class="chap-head"><span class="eyebrow">Chapitre 1</span><h2>Retour, réclamation : de quoi parle-t-on ?</h2></div>
+  <div class="grid2">
+    <div class="box def"><h3>Le retour</h3><p>Le client <strong>rapporte ou renvoie un produit</strong> pour l'échanger ou être remboursé. Le produit n'a souvent aucun défaut : mauvaise taille, cadeau en double, changement d'avis…</p></div>
+    <div class="box def"><h3>La réclamation</h3><p>Le client <strong>exprime un mécontentement</strong> et demande que l'entreprise corrige un problème : produit défectueux, erreur de prix, retard de livraison, mauvais accueil…</p></div>
+  </div>
+  <p>Un retour peut être aussi une réclamation : un client qui rapporte un produit <em>défectueux</em> fait les deux à la fois.</p>
+  <h3>Les grands types de réclamations</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Exemple chez Rayon Vert</th></tr></thead>
+    <tbody>
+      <tr><td>Produit</td><td>Fermeture éclair d'un sac cassée, semelle décollée</td></tr>
+      <tr><td>Livraison</td><td>Colis en retard, abîmé, incomplet, mauvaise adresse</td></tr>
+      <tr><td>Prix / facturation</td><td>Prix en caisse différent du prix en rayon, double débit</td></tr>
+      <tr><td>Accueil / service</td><td>Attente trop longue, vendeur désagréable, mauvais conseil</td></tr>
+      <tr><td>Information</td><td>Promotion mal expliquée, conditions de retour non affichées</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Pourquoi bien les traiter ?</h3>
+  <div class="grid2">
+    <div class="box"><strong>Fidéliser</strong><p>Un client dont le problème est bien résolu a des raisons de revenir.</p></div>
+    <div class="box"><strong>Protéger l'image</strong><p>Le client mécontent peut en parler autour de lui ou publier un avis en ligne.</p></div>
+    <div class="box"><strong>S'améliorer</strong><p>Les réclamations signalent des problèmes à corriger (fournisseur, transporteur, affichage…).</p></div>
+    <div class="box"><strong>Respecter la loi</strong><p>Certaines demandes sont des droits du client : le magasin n'a pas le choix.</p></div>
+  </div>
+
+  <div class="activity" id="a1"></div>
+</section>
+
+<!-- 2. DROIT -->
+<section class="chap" id="droit">
+  <div class="chap-head"><span class="eyebrow">Chapitre 2</span><h2>Ce que la loi impose… et ce qu'elle n'impose pas</h2></div>
+  <p>Avant de répondre à un client, le vendeur doit savoir <strong>s'il s'agit d'un droit</strong> (le magasin doit agir) ou <strong>d'un geste commercial</strong> (le magasin décide librement).</p>
+
+  <div class="box law">
+    <h3>① Achat en magasin, produit sans défaut : pas d'obligation</h3>
+    <p>La loi ne prévoit pas de « droit de changer d'avis » pour un achat fait en magasin. L'échange, l'avoir ou le remboursement sont un <strong>choix commercial</strong> du magasin, qui fixe lui-même ses conditions (délai, ticket de caisse, état du produit…).</p>
+  </div>
+
+  <div class="box law">
+    <h3>② Achat à distance : le droit de rétractation</h3>
+    <ul class="clean">
+      <li>Pour un achat par internet, téléphone ou courrier, le client a au moins <strong>14 jours calendaires</strong> pour changer d'avis, sans avoir à se justifier.</li>
+      <li>Le décompte commence le <strong>lendemain</strong> de la livraison du bien (ou de la conclusion du contrat, selon le cas).</li>
+      <li>Le client renvoie le bien au plus tard 14 jours après avoir informé le vendeur.</li>
+      <li>Le vendeur rembourse au plus tard <strong>14 jours</strong> après avoir été informé de la rétractation (il peut attendre d'avoir récupéré le bien).</li>
+      <li>Si le vendeur n'a pas informé le client de ce droit, le délai peut être prolongé jusqu'à 12 mois.</li>
+      <li>Certains achats sont exclus de ce droit (liste sur service-public.fr).</li>
+    </ul>
+  </div>
+
+  <div class="box law">
+    <h3>③ Produit défectueux : la garantie légale de conformité</h3>
+    <ul class="clean">
+      <li><strong>Obligatoire</strong> : tout vendeur professionnel la doit, sur chaque produit.</li>
+      <li>Couvre les défauts qui apparaissent dans les <strong>2 ans</strong> à compter de la délivrance du bien, qu'il soit <strong>neuf, d'occasion ou reconditionné</strong>.</li>
+      <li>Pendant ces 2 ans, le client n'a pas à prouver que le défaut existait à l'achat : c'est au vendeur de prouver le contraire.</li>
+      <li>Le client choisit d'abord entre <strong>réparation</strong> et <strong>remplacement</strong>, gratuitement. Si c'est impossible ou non fait dans un délai d'1 mois, il peut obtenir une <strong>réduction du prix</strong> ou l'annulation de la vente (remboursement).</li>
+      <li>Si le vendeur impose le remplacement, une nouvelle garantie de 2 ans démarre.</li>
+      <li>« Garanti 2 ans » sur un produit = c'est cette garantie légale.</li>
+    </ul>
+  </div>
+
+  <div class="box law">
+    <h3>④ Défaut grave et caché : la garantie des vices cachés</h3>
+    <ul class="clean">
+      <li>Prévue par le <strong>Code civil</strong> (articles 1641 et suivants).</li>
+      <li>Concerne un défaut <strong>grave, non visible</strong> au moment de l'achat, <strong>antérieur</strong> à la vente, qui rend le bien inutilisable ou diminue fortement son usage.</li>
+      <li>S'applique à <strong>tout vendeur</strong>, professionnel ou <strong>particulier</strong>.</li>
+      <li>Le client a <strong>2 ans à compter de la découverte du vice</strong> pour agir (et non à compter de l'achat). C'est au client de prouver le vice.</li>
+    </ul>
+  </div>
+
+  <div class="box law">
+    <h3>⑤ La garantie commerciale</h3>
+    <p><strong>Facultative</strong> (gratuite ou payante, appelée aussi « extension de garantie », « garantie constructeur »…). Elle <strong>s'ajoute</strong> aux garanties légales mais ne les remplace jamais.</p>
+  </div>
+
+  <div class="box law">
+    <h3>⑥ En cas de désaccord : la médiation de la consommation</h3>
+    <ul class="clean">
+      <li>Tout professionnel doit permettre à ses clients d'accéder à un <strong>médiateur de la consommation</strong> et leur communiquer ses coordonnées (Code de la consommation, art. L612-1).</li>
+      <li>Le client doit d'abord avoir fait une <strong>réclamation écrite</strong> auprès du professionnel, puis saisir le médiateur dans un délai d'<strong>1 an</strong>.</li>
+      <li>La médiation est <strong>gratuite pour le consommateur</strong> ; le médiateur propose une solution dans un délai de 90 jours.</li>
+    </ul>
+  </div>
+
+  <div class="box retenir"><p><strong>Réflexe du vendeur :</strong> 1) Où a eu lieu l'achat (magasin ou à distance) ? 2) Le produit a-t-il un défaut ? 3) Depuis quand ? 4) Qui est le vendeur (professionnel ou particulier) ?</p></div>
+
+  <div class="activity" id="a2"></div>
+</section>
+
+<!-- 3. METHODE -->
+<section class="chap" id="methode">
+  <div class="chap-head"><span class="eyebrow">Chapitre 3</span><h2>La méthode face à un client mécontent</h2></div>
+  <ol class="steps">
+    <li><div><h3>Accueillir et écouter</h3><p>Sourire, regard, se rendre disponible. Laisser le client s'exprimer <strong>sans l'interrompre</strong>, même s'il est énervé : il a besoin de vider son sac.</p></div></li>
+    <li><div><h3>Reformuler</h3><p>« Si je comprends bien, … » : on montre qu'on a compris et on vérifie les faits. Le client se sent pris au sérieux.</p></div></li>
+    <li><div><h3>Vérifier</h3><p>Preuve d'achat (ticket, facture, n° de commande), date d'achat, état du produit, lieu d'achat, conditions de la politique de retour.</p></div></li>
+    <li><div><h3>Proposer une solution</h3><p>Une solution <strong>conforme à la loi</strong> et aux règles du magasin. Si possible, proposer un choix. Si la décision dépasse ton rôle : appeler le responsable.</p></div></li>
+    <li><div><h3>Conclure</h3><p>Remercier, s'excuser pour la gêne, remettre un document (avoir, bon d'échange, bon de dépôt SAV), indiquer les délais.</p></div></li>
+    <li><div><h3>Enregistrer et suivre</h3><p>Remplir la fiche réclamation, transmettre au bon service, vérifier que la solution a bien été appliquée.</p></div></li>
+  </ol>
+
+  <h3>Exemple – la même situation, deux attitudes</h3>
+  <p>Client 1 de la situation : chaussures achetées il y a 3 mois en magasin, semelle décollée.</p>
+  <div class="grid2">
+    <div class="box">
+      <p class="verdict bad">✗ À ne pas faire</p>
+      <div class="dialog">
+        <div class="bubble c"><b>CLIENT</b>Mes chaussures sont fichues après 3 mois !</div>
+        <div class="bubble v"><b>VENDEUR</b>Vous avez dû courir sous la pluie… Ce n'est pas notre problème.</div>
+        <div class="bubble c"><b>CLIENT</b>Pardon ?! Je veux voir le responsable !</div>
+      </div>
+      <p>Le vendeur accuse le client, ne vérifie rien et oublie que la garantie légale de conformité s'applique.</p>
+    </div>
+    <div class="box">
+      <p class="verdict good">✓ Attitude professionnelle</p>
+      <div class="dialog">
+        <div class="bubble c"><b>CLIENT</b>Mes chaussures sont fichues après 3 mois !</div>
+        <div class="bubble v"><b>VENDEUR</b>Je comprends, c'est agaçant. Si je comprends bien, la semelle se décolle ? Avez-vous votre ticket ?</div>
+        <div class="bubble c"><b>CLIENT</b>Oui, le voici.</div>
+        <div class="bubble v"><b>VENDEUR</b>Merci. Achat il y a 3 mois : vous êtes couvert par la garantie légale. Préférez-vous un échange ou une réparation ?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box">
+    <h3>Vocabulaire professionnel</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Au lieu de…</th><th>Dire plutôt…</th></tr></thead>
+      <tbody>
+        <tr><td>« C'est pas possible. »</td><td>« Voici ce que je peux vous proposer… »</td></tr>
+        <tr><td>« Calmez-vous ! »</td><td>« Je comprends votre mécontentement. »</td></tr>
+        <tr><td>« C'est pas moi, c'est le transporteur. »</td><td>« Je m'occupe de voir avec notre transporteur. »</td></tr>
+        <tr><td>« Vous avez mal lu l'étiquette. »</td><td>« Je vous réexplique les conditions de l'offre. »</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="activity" id="a3"></div>
+  <div class="activity" id="a4"></div>
+</section>
+
+<!-- 4. SOLUTIONS -->
+<section class="chap" id="solutions">
+  <div class="chap-head"><span class="eyebrow">Chapitre 4</span><h2>Les solutions possibles et la réponse écrite</h2></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Solution</th><th>Quand l'utiliser ?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Échange</strong></td><td>Mauvaise taille, couleur, produit défectueux (remplacement).</td></tr>
+      <tr><td><strong>Avoir</strong></td><td>Bon d'achat de la valeur du produit, à utiliser plus tard dans le magasin. Souvent proposé pour un retour en magasin sans défaut.</td></tr>
+      <tr><td><strong>Remboursement</strong></td><td>Rétractation (achat à distance) ; défaut impossible à réparer ou remplacer ; politique commerciale du magasin.</td></tr>
+      <tr><td><strong>Réparation (SAV)</strong></td><td>Produit défectueux réparable. On remet au client un bon de dépôt.</td></tr>
+      <tr><td><strong>Geste commercial</strong></td><td>Remise, bon de réduction, livraison offerte… pour compenser une gêne (retard, attente), sans obligation légale.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Exemple de fiche réclamation</h3>
+  <div class="ticket">
+    <div class="row"><span>RAYON VERT · FICHE RÉCLAMATION</span><span>N° R-2026-0912</span></div>
+    <div class="row"><span>Date</span><span>Samedi 3 octobre 2026 – 15 h 10</span></div>
+    <div class="row"><span>Client</span><span>M. Thomas Leroy · 06 •• •• •• ••</span></div>
+    <div class="row"><span>Produit</span><span>Chaussures running T.42 – réf. RUN-220</span></div>
+    <div class="row"><span>Date d'achat</span><span>04/07/2026 (ticket présenté)</span></div>
+    <div class="row"><span>Motif</span><span>Semelle décollée – type : PRODUIT</span></div>
+    <div class="row"><span>Cadre</span><span>Garantie légale de conformité (&lt; 2 ans)</span></div>
+    <div class="row"><span>Solution</span><span>Échange contre paire neuve, choix du client</span></div>
+    <div class="row"><span>Traité par</span><span>Stagiaire 1MCVA / validé par Mme Benali</span></div>
+    <div class="row"><span>Suivi</span><span>Défaut signalé au fournisseur le 05/10</span></div>
+  </div>
+
+  <h3>Répondre à une réclamation écrite (e-mail, courrier, avis en ligne)</h3>
+  <ol class="steps">
+    <li><div><strong>Formule d'appel</strong> personnalisée : « Madame Roussel, »</div></li>
+    <li><div><strong>Remercier</strong> le client de son message et <strong>s'excuser</strong> pour la gêne.</div></li>
+    <li><div><strong>Reformuler</strong> le problème (n° de commande, produit, date).</div></li>
+    <li><div><strong>Annoncer la solution</strong> clairement, avec les étapes et les délais.</div></li>
+    <li><div><strong>Conclure</strong> positivement + <strong>formule de politesse</strong> + signature (nom, fonction, entreprise).</div></li>
+  </ol>
+  <div class="box retenir"><p>À l'écrit : phrases courtes, aucune faute, aucun reproche au client, ton courtois même si le client est agressif.</p></div>
+
+  <div class="activity" id="a6"></div>
+</section>
+
+<!-- 5. SUIVI -->
+<section class="chap" id="suivi">
+  <div class="chap-head"><span class="eyebrow">Chapitre 5</span><h2>Suivre et analyser les réclamations</h2></div>
+  <p>Chaque réclamation enregistrée permet de mesurer la qualité du service grâce à des <strong>indicateurs</strong> :</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Indicateur</th><th>Formule</th></tr></thead>
+    <tbody>
+      <tr><td>Taux de réclamation</td><td>Nombre de réclamations ÷ nombre de ventes (tickets) × 100</td></tr>
+      <tr><td>Taux de traitement rapide</td><td>Réclamations traitées en moins de 48 h ÷ total des réclamations × 100</td></tr>
+      <tr><td>Taux de résolution</td><td>Réclamations résolues (client satisfait) ÷ total des réclamations × 100</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box">
+    <p class="eyebrow">Exemple corrigé</p>
+    <p>En août, Rayon Vert a enregistré <span class="num">2 000</span> tickets et <span class="num">30</span> réclamations, dont <span class="num">24</span> traitées en moins de 48 h.</p>
+    <ul class="clean">
+      <li>Taux de réclamation = 30 ÷ 2 000 × 100 = <strong>1,5 %</strong></li>
+      <li>Taux de traitement rapide = 24 ÷ 30 × 100 = <strong>80 %</strong></li>
+    </ul>
+    <p>Ces indicateurs n'ont de sens que si on les compare : d'un mois à l'autre, ou à un objectif fixé par l'entreprise.</p>
+  </div>
+  <div class="activity" id="a5"></div>
+</section>
+
+<!-- TEST -->
+<section class="chap" id="test">
+  <div class="chap-head"><span class="eyebrow">Évaluation</span><h2>Test final</h2></div>
+  <div class="activity" id="t1"></div>
+</section>
+
+<!-- SYNTHESE -->
+<section class="chap" id="synthese">
+  <div class="chap-head"><span class="eyebrow">À retenir</span><h2>Synthèse</h2></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Situation</th><th>Règle</th><th>Délai clé</th></tr></thead>
+    <tbody>
+      <tr><td>Achat en magasin, pas de défaut</td><td>Aucune obligation : politique commerciale du magasin</td><td>Fixé par le magasin</td></tr>
+      <tr><td>Achat à distance, changement d'avis</td><td>Droit de rétractation</td><td>14 jours ; remboursement sous 14 jours</td></tr>
+      <tr><td>Produit défectueux, vendeur pro</td><td>Garantie légale de conformité (réparation ou remplacement)</td><td>2 ans après la délivrance</td></tr>
+      <tr><td>Défaut grave caché, tout vendeur</td><td>Garantie des vices cachés (Code civil)</td><td>2 ans après la découverte</td></tr>
+      <tr><td>Garantie en plus, proposée par le vendeur</td><td>Garantie commerciale (facultative)</td><td>Fixé par le contrat</td></tr>
+      <tr><td>Désaccord persistant</td><td>Médiateur de la consommation (gratuit pour le client)</td><td>Saisine dans l'année qui suit la réclamation écrite</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box retenir stack">
+    <h3>Les 6 étapes : Accueillir → Reformuler → Vérifier → Proposer → Conclure → Enregistrer & suivre</h3>
+    <ul class="clean">
+      <li>Un client mécontent bien traité peut devenir un client fidèle.</li>
+      <li>On écoute sans interrompre, on ne cherche pas de coupable, on ne fait aucun reproche.</li>
+      <li>On distingue toujours un <strong>droit du client</strong> d'un <strong>geste commercial</strong>.</li>
+      <li>On propose une solution claire, avec un délai, et on remet un document.</li>
+      <li>Chaque réclamation est enregistrée : elle sert à améliorer le service (indicateurs).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- RENDU -->
+<section class="chap" id="rendu">
+  <div class="chap-head"><span class="eyebrow">Fin du cours</span><h2>Générer mon code de rendu</h2></div>
+  <div class="progress" id="progress"></div>
+  <div class="btnrow"><button class="btn" id="genCode" type="button">Générer mon code</button><button class="btn ghost" id="copyCode" type="button" hidden>Copier le code</button></div>
+  <p id="codeMsg" class="notice" hidden></p>
+  <div id="codeOut" class="codeout" hidden></div>
+  <p style="color:var(--muted);font-size:.92rem">Copie ce code en entier et envoie-le à ton professeur (messagerie de l'ENT ou méthode indiquée en classe). Le code contient tes résultats et ta réponse écrite ; toute modification le rend invalide.</p>
+</section>
+
+<!-- PROF -->
+<section class="chap" id="prof">
+  <div class="chap-head"><span class="eyebrow">Réservé</span><h2>Espace enseignant</h2></div>
+  <div id="profLock" class="box">
+    <label for="profPass" style="font-weight:600">Code enseignant</label>
+    <div class="btnrow"><input type="password" id="profPass" style="width:220px"><button class="btn" id="profGo" type="button">Ouvrir</button></div>
+    <p id="profErr" class="badge-ko" hidden>Code incorrect.</p>
+  </div>
+  <div id="profPanel" class="stack" hidden>
+    <div class="box">
+      <label for="codesIn" style="font-weight:600">Collez les codes des élèves (un par ligne ou à la suite)</label>
+      <textarea id="codesIn" style="min-height:140px" placeholder="RR1-…"></textarea>
+      <div class="btnrow"><button class="btn" id="analyse" type="button">Analyser</button><button class="btn ghost" id="copyTable" type="button">Copier le tableau (tableur)</button><button class="btn ghost" id="clearCodes" type="button">Vider la liste</button></div>
+      <p id="profInfo" style="font-size:.92rem;color:var(--muted)"></p>
+    </div>
+    <div class="tablewrap"><table id="profTable"><thead><tr><th>Élève</th><th>Date</th><th>A1</th><th>A2</th><th>A3</th><th>A4</th><th>A5</th><th>Test</th><th>Total</th><th>%</th><th>Note auto</th><th>Note retenue /4</th><th>Code</th></tr></thead><tbody></tbody></table></div>
+    <div class="box">
+      <h3>Barème de la note sur 4</h3>
+      <p>Note automatique calculée sur les activités corrigées automatiquement (A1 à A5 + test, 39 points) :</p>
+      <div class="tablewrap"><table class="num"><thead><tr><th>Réussite</th><th>0 – 19 %</th><th>20 – 39 %</th><th>40 – 59 %</th><th>60 – 79 %</th><th>80 – 100 %</th></tr></thead><tbody><tr><td>Note</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr></tbody></table></div>
+      <p>L'activité 6 (réponse écrite) n'est pas notée automatiquement : lisez-la (lien « Réponse écrite ») et ajustez la « note retenue ». Grille indicative : formule d'appel et politesse · remerciements/excuses · reformulation du problème avec le n° de commande · solution conforme au droit (remplacement au titre de la garantie de conformité, ou remboursement par rétractation, la livraison datant de moins de 14 jours) · orthographe et ton professionnel.</p>
+    </div>
+    <div class="box">
+      <h3>Poste partagé</h3>
+      <p>Avant de passer le poste à un autre élève, effacez les réponses enregistrées sur cet appareil.</p>
+      <div class="btnrow"><button class="btn danger" id="resetDevice" type="button">Effacer les réponses élève de cet appareil</button><span id="resetMsg"></span></div>
+    </div>
+  </div>
+</section>
+
+<footer>Cours « Traitement des retours et des réclamations » · 1MCVA · LEGER Isabelle · Rayon Vert, ses clients et ses chiffres sont fictifs.</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var PROF_CODE = "ECOGEST";
+var SALT = "rv-1mcva-2026";
+var STORE = "rr1mcva_state";
+var PROF_STORE = "rr1mcva_prof";
+
+var A = {
+  a1:{title:"Activité 1 – Retour ou réclamation ?", type:"select", consigne:"Pour chaque situation, indique s'il s'agit d'une demande de retour/échange ou d'une réclamation.",
+    options:["Demande de retour / échange","Réclamation"],
+    items:[
+      {q:"Lina rapporte un jean jamais porté : la taille ne lui va pas.",a:0,e:"Aucun problème causé par le magasin : c'est un retour."},
+      {q:"M. Durand se plaint : son colis est arrivé 6 jours après la date annoncée.",a:1,e:"Mécontentement sur la livraison : réclamation."},
+      {q:"Un client a été débité deux fois pour le même article.",a:1,e:"Erreur de facturation : réclamation."},
+      {q:"Une cliente veut échanger un pull reçu en cadeau contre une autre couleur.",a:0,e:"Simple échange : retour."},
+      {q:"Une cliente se plaint de l'attitude désagréable d'un vendeur en caisse.",a:1,e:"Mécontentement sur l'accueil : réclamation."},
+      {q:"Un client a commandé une lampe en ligne et ne la veut plus, 5 jours après la livraison.",a:0,e:"Changement d'avis : retour (droit de rétractation)."},
+      {q:"Prix affiché en rayon : 29,90 €. Prix compté en caisse : 34,90 €.",a:1,e:"Erreur de prix : réclamation."},
+      {q:"Un client rapporte des chaussures neuves achetées en double par erreur.",a:0,e:"Aucun défaut, aucune faute du magasin : retour."}
+    ]},
+  a2:{title:"Activité 2 – Quel droit s'applique ?", type:"select", consigne:"Lis chaque cas et choisis la règle qui s'applique.",
+    options:["Droit de rétractation","Garantie légale de conformité","Garantie des vices cachés","Politique commerciale du magasin (aucune obligation légale)","Aucune garantie : dommage causé par le client"],
+    items:[
+      {q:"Inès a commandé un sweat sur le site de Rayon Vert. Livré le 5 octobre, elle change d'avis le 12 octobre.",a:0,e:"Achat à distance, moins de 14 jours après la livraison : rétractation."},
+      {q:"Hugo a acheté un t-shirt hier en magasin. La couleur ne lui plaît plus.",a:3,e:"Achat en magasin sans défaut : le magasin décide librement (échange, avoir… ou refus)."},
+      {q:"Une montre connectée achetée il y a 8 mois chez Rayon Vert ne s'allume plus.",a:1,e:"Vendeur professionnel, défaut apparu moins de 2 ans après la délivrance : garantie de conformité."},
+      {q:"Sami a acheté un vélo à un particulier sur une appli de petites annonces. Il découvre une fissure cachée dans le cadre.",a:2,e:"Vendeur particulier : la garantie de conformité ne s'applique pas, mais les vices cachés oui."},
+      {q:"Un casque audio acheté il y a 3 ans présente un défaut de conception grave, découvert le mois dernier.",a:2,e:"Plus de 2 ans après la délivrance : la garantie de conformité est dépassée. Le délai des vices cachés court à partir de la découverte."},
+      {q:"Une cliente a fait tomber son téléphone : l'écran est cassé.",a:4,e:"Le défaut n'existait pas à l'achat : les garanties légales ne couvrent pas un accident causé par le client."}
+    ]},
+  a3:{title:"Activité 3 – Remets les étapes dans l'ordre", type:"order", consigne:"Indique pour chaque étape sa position (1 à 6) dans le traitement d'une réclamation en face à face.",
+    items:[
+      {q:"Proposer une solution adaptée et conforme aux règles",a:4},
+      {q:"Accueillir le client et l'écouter sans l'interrompre",a:1},
+      {q:"Enregistrer la réclamation et assurer le suivi",a:6},
+      {q:"Reformuler la demande pour vérifier qu'on a bien compris",a:2},
+      {q:"Conclure : remercier et remettre un document (avoir, bon de dépôt…)",a:5},
+      {q:"Vérifier : preuve d'achat, date, état du produit",a:3}
+    ]},
+  a4:{title:"Activité 4 – À dire ou à éviter ?", type:"select", consigne:"Classe chaque phrase de vendeur.",
+    options:["À dire","À éviter"],
+    items:[
+      {q:"« Je comprends que ce soit désagréable, voyons ensemble ce que je peux faire. »",a:0,e:"Empathie + recherche de solution."},
+      {q:"« Ce n'est pas de ma faute, je n'étais pas là. »",a:1,e:"On ne se défausse pas : le client parle à l'entreprise."},
+      {q:"« Si je comprends bien, votre gourde fuit depuis hier ? »",a:0,e:"Reformulation : le client se sent écouté."},
+      {q:"« Vous avez dû mal l'utiliser. »",a:1,e:"Accuser le client fait monter la tension."},
+      {q:"« Je vous propose deux solutions : l'échange ou un avoir. »",a:0,e:"Proposer un choix rend le client acteur."},
+      {q:"« Ce n'est pas possible, c'est la politique du magasin, point. »",a:1,e:"Refus sec sans explication ni alternative."}
+    ]},
+  a5:{title:"Activité 5 – Calculer les indicateurs", type:"calc",
+    consigne:"En septembre, Rayon Vert a enregistré 1 250 tickets de caisse et 50 réclamations. 40 réclamations ont été traitées en moins de 48 h et 45 ont été résolues (client satisfait). Calcule en % (sans écrire le signe %).",
+    items:[
+      {q:"Taux de réclamation",a:4,e:"50 ÷ 1 250 × 100 = 4 %"},
+      {q:"Taux de traitement en moins de 48 h",a:80,e:"40 ÷ 50 × 100 = 80 %"},
+      {q:"Taux de résolution",a:90,e:"45 ÷ 50 × 100 = 90 %"}
+    ]},
+  a6:{title:"Activité 6 – Rédiger la réponse à une cliente", type:"text"},
+  t1:{title:"Test final – 10 questions", type:"qcm", consigne:"Une seule bonne réponse par question.",
+    items:[
+      {q:"Pour un achat sur internet, le délai de rétractation est de :",o:["7 jours","14 jours calendaires minimum","30 jours","Il n'y a pas de délai"],a:1,e:"14 jours calendaires minimum."},
+      {q:"Une cliente rapporte en magasin un pull sans défaut qui ne lui plaît plus. Le magasin :",o:["doit la rembourser","doit lui faire un avoir","n'est pas obligé de le reprendre : il applique sa politique commerciale","doit l'échanger"],a:2,e:"Aucune obligation légale pour un achat en magasin sans défaut."},
+      {q:"La garantie légale de conformité couvre les défauts apparus :",o:["dans les 6 mois","dans l'année","dans les 2 ans à compter de la délivrance","dans les 5 ans"],a:2,e:"2 ans à compter de la délivrance."},
+      {q:"La garantie légale de conformité s'applique aux biens vendus par un professionnel :",o:["neufs uniquement","neufs, d'occasion et reconditionnés","d'occasion uniquement","seulement s'ils coûtent plus de 100 €"],a:1,e:"Neufs, d'occasion ou reconditionnés."},
+      {q:"Pour la garantie des vices cachés, le client doit agir dans un délai de :",o:["2 ans à compter de la découverte du vice","2 ans à compter de l'achat","14 jours","6 mois"],a:0,e:"2 ans à compter de la découverte (Code civil)."},
+      {q:"La garantie commerciale est :",o:["obligatoire","facultative et s'ajoute aux garanties légales","un remplacement de la garantie légale","réservée aux achats en ligne"],a:1,e:"Facultative ; elle ne remplace jamais les garanties légales."},
+      {q:"Après une rétractation, le vendeur doit rembourser au plus tard :",o:["7 jours après","14 jours après avoir été informé de la rétractation","30 jours après","2 mois après"],a:1,e:"14 jours après avoir été informé."},
+      {q:"Avant de saisir le médiateur de la consommation, le client doit :",o:["ne rien faire de particulier","avoir fait une réclamation écrite auprès du professionnel","avoir saisi un tribunal","payer des frais de dossier"],a:1,e:"Réclamation écrite préalable ; la médiation est gratuite pour lui."},
+      {q:"Face à un client très énervé, la première chose à faire est de :",o:["proposer tout de suite un remboursement","l'écouter sans l'interrompre","lui demander de se calmer","lui dire de revenir plus tard"],a:1,e:"Écouter d'abord : c'est la base de l'accueil."},
+      {q:"On enregistre chaque réclamation pour :",o:["sanctionner le vendeur","suivre le dossier, repérer les problèmes récurrents et améliorer le service","ficher le client","respecter une obligation de la police"],a:1,e:"Suivi et amélioration du service."}
+    ]}
+};
+var AUTO = ["a1","a2","a3","a4","a5","t1"];
+var LABELS = {a1:"A1",a2:"A2",a3:"A3",a4:"A4",a5:"A5",a6:"A6 (écrit)",t1:"Test"};
+
+/* ---------- état ---------- */
+var state = {id:{nom:"",prenom:"",classe:"1MCVA"}, act:{}, redac:"", redacDone:false};
+function load(){ try{ var s = localStorage.getItem(STORE); if(s){ var o = JSON.parse(s); if(o && o.act) state = o; } }catch(e){} }
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(state)); }catch(e){} }
+load();
+
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+function maxOf(k){ return A[k].items.length; }
+
+/* ---------- identité ---------- */
+["nom","prenom","classe"].forEach(function(f){
+  var el = document.getElementById(f);
+  if(state.id[f]) el.value = state.id[f];
+  el.addEventListener("input",function(){ state.id[f] = el.value.trim(); save(); });
+});
+
+/* ---------- rendu activités ---------- */
+function head(k){
+  var a = A[k], pts = a.type==="text" ? "corrigée par le professeur" : maxOf(k)+" pt"+(maxOf(k)>1?"s":"");
+  return '<div class="act-head"><h3>'+esc(a.title)+'</h3><span class="pts">'+pts+'</span></div>';
+}
+function render(k){
+  var a = A[k], root = document.getElementById(k), st = state.act[k] || {ans:{}};
+  var locked = !!st.locked, h = head(k)+'<div class="act-body">';
+  if(a.consigne) h += '<p>'+esc(a.consigne)+'</p>';
+  a.items.forEach(function(it,i){
+    var cls = "item", fb = "";
+    if(locked){
+      var good = isGood(k,i,st.ans[i]);
+      cls += good ? " ok" : " ko";
+      var sol = a.type==="select" ? a.options[it.a] : a.type==="order" ? "position "+it.a : a.type==="qcm" ? it.o[it.a] : String(it.a).replace(".",",")+" %";
+      fb = '<p class="fb"><strong>'+(good?"Juste.":"Faux.")+'</strong> Réponse : '+esc(sol)+(it.e?" – "+esc(it.e):"")+'</p>';
+    }
+    var dis = locked ? " disabled" : "", v = st.ans[i];
+    var id = k+"_"+i;
+    if(a.type==="select"){
+      h += '<div class="'+cls+'"><label for="'+id+'">'+esc(it.q)+'</label><select id="'+id+'" data-k="'+k+'" data-i="'+i+'"'+dis+'><option value="">– choisir –</option>';
+      a.options.forEach(function(o,j){ h += '<option value="'+j+'"'+(String(v)===String(j)?" selected":"")+'>'+esc(o)+'</option>'; });
+      h += '</select>'+fb+'</div>';
+    } else if(a.type==="order"){
+      h += '<div class="'+cls+'"><div class="calc-row"><label for="'+id+'">'+esc(it.q)+'</label><select id="'+id+'" data-k="'+k+'" data-i="'+i+'"'+dis+'><option value="">–</option>';
+      for(var p=1;p<=a.items.length;p++) h += '<option value="'+p+'"'+(String(v)===String(p)?" selected":"")+'>'+p+'</option>';
+      h += '</select></div>'+fb+'</div>';
+    } else if(a.type==="calc"){
+      h += '<div class="'+cls+'"><div class="calc-row"><label for="'+id+'">'+esc(it.q)+' (en %)</label><input type="text" inputmode="decimal" id="'+id+'" data-k="'+k+'" data-i="'+i+'" value="'+esc(v||"")+'"'+dis+'></div>'+fb+'</div>';
+    } else if(a.type==="qcm"){
+      h += '<fieldset class="'+cls+'" style="margin:0"><legend style="font-weight:600;padding:0 4px">'+(i+1)+'. '+esc(it.q)+'</legend>';
+      it.o.forEach(function(o,j){
+        h += '<label class="radio"><input type="radio" name="'+id+'" id="'+id+'_'+j+'" value="'+j+'" data-k="'+k+'" data-i="'+i+'"'+(String(v)===String(j)?" checked":"")+dis+'><span>'+esc(o)+'</span></label>';
+      });
+      h += fb+'</fieldset>';
+    }
+  });
+  h += '<div class="btnrow">';
+  if(locked) h += '<span class="score">Score : '+st.score+' / '+maxOf(k)+'</span>';
+  else h += '<button class="btn" type="button" data-validate="'+k+'">Valider (définitif)</button><span class="miss" id="miss_'+k+'"></span>';
+  h += '</div></div>';
+  root.innerHTML = h;
+}
+function num(s){ if(s==null) return NaN; return parseFloat(String(s).replace(",",".").replace("%","").replace(/\s/g,"")); }
+function isGood(k,i,v){
+  var it = A[k].items[i];
+  if(A[k].type==="calc") return Math.abs(num(v)-it.a) <= 0.1;
+  return v!==undefined && v!=="" && String(v)===String(it.a);
+}
+function validate(k){
+  var st = state.act[k] || {ans:{}}, a = A[k], empty = 0;
+  a.items.forEach(function(_,i){ if(st.ans[i]===undefined || st.ans[i]==="") empty++; });
+  var miss = document.getElementById("miss_"+k);
+  if(empty && miss && miss.dataset.warned!=="1"){
+    miss.textContent = empty+" réponse(s) vide(s). Clique encore sur « Valider » pour confirmer.";
+    miss.dataset.warned = "1"; return;
+  }
+  var sc = 0; a.items.forEach(function(_,i){ if(isGood(k,i,st.ans[i])) sc++; });
+  st.score = sc; st.locked = true; st.at = new Date().toISOString();
+  state.act[k] = st; save(); render(k); progress();
+}
+document.addEventListener("change",function(e){
+  var t = e.target, k = t.getAttribute("data-k");
+  if(!k) return; var st = state.act[k] || (state.act[k]={ans:{}}); if(st.locked) return;
+  st.ans[t.getAttribute("data-i")] = t.value; save();
+});
+document.addEventListener("input",function(e){
+  var t = e.target, k = t.getAttribute("data-k");
+  if(!k || A[k].type!=="calc") return; var st = state.act[k] || (state.act[k]={ans:{}}); if(st.locked) return;
+  st.ans[t.getAttribute("data-i")] = t.value; save();
+});
+document.addEventListener("click",function(e){
+  var k = e.target.getAttribute && e.target.getAttribute("data-validate");
+  if(k) validate(k);
+});
+
+/* ---------- activité écrite ---------- */
+function renderA6(){
+  var root = document.getElementById("a6");
+  var h = head("a6")+'<div class="act-body">'+
+  '<div class="box law"><p class="eyebrow">E-mail reçu le mercredi 7 octobre 2026</p>'+
+  '<p><strong>De :</strong> Camille Roussel<br><strong>Objet :</strong> Commande RV-48213 – sac abîmé</p>'+
+  '<p>Bonjour, j\'ai reçu il y a 3 jours le sac à dos de randonnée commandé sur votre site (commande RV-48213, 64,90 €). À l\'ouverture du colis, la fermeture éclair principale était cassée. Je suis très déçue, je pars en randonnée dans 10 jours. Je veux être remboursée. Camille Roussel</p></div>'+
+  '<p><strong>Consigne :</strong> tu es conseiller(ère) au service clients de Rayon Vert. Rédige la réponse à Mme Roussel en suivant les 5 étapes de la réponse écrite. Propose une solution conforme au droit (chapitre 2) et adaptée à son besoin.</p>'+
+  '<label for="redac" class="eyebrow">Ta réponse</label><textarea id="redac"'+(state.redacDone?" disabled":"")+'>'+esc(state.redac||"")+'</textarea>'+
+  '<div class="btnrow">'+(state.redacDone?'<span class="score">Réponse enregistrée – corrigée par le professeur</span>':'<button class="btn" type="button" id="redacOk">Enregistrer ma réponse (définitif)</button><span id="redacMsg"></span>')+'</div></div>';
+  root.innerHTML = h;
+  var ta = document.getElementById("redac");
+  ta.addEventListener("input",function(){ if(!state.redacDone){ state.redac = ta.value; save(); } });
+  var b = document.getElementById("redacOk");
+  if(b) b.addEventListener("click",function(){
+    if((state.redac||"").trim().length < 80){ document.getElementById("redacMsg").textContent = "Ta réponse est trop courte (au moins quelques phrases)."; return; }
+    state.redacDone = true; save(); renderA6(); progress();
+  });
+}
+
+/* ---------- progression & code ---------- */
+function progress(){
+  var h = "";
+  AUTO.concat(["a6"]).forEach(function(k){
+    var done = k==="a6" ? state.redacDone : !!(state.act[k] && state.act[k].locked);
+    var info = k==="a6" ? (done?"rendu":"à faire") : (done ? state.act[k].score+"/"+maxOf(k) : "à faire");
+    h += '<div><span>'+LABELS[k]+'</span><span class="chip '+(done?"done":"todo")+'">'+info+'</span></div>';
+  });
+  document.getElementById("progress").innerHTML = h;
+}
+function fnv(s){ var h = 0x811c9dc5; for(var i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h,0x01000193)>>>0; } return ("0000000"+h.toString(16)).slice(-8); }
+function b64e(str){ var bytes = new TextEncoder().encode(str), bin = ""; for(var i=0;i<bytes.length;i++) bin += String.fromCharCode(bytes[i]); return btoa(bin); }
+function b64d(b){ var bin = atob(b), bytes = new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i); return new TextDecoder().decode(bytes); }
+function noteOf(pct){ return pct>=80?4:pct>=60?3:pct>=40?2:pct>=20?1:0; }
+
+document.getElementById("genCode").addEventListener("click",function(){
+  var msg = document.getElementById("codeMsg");
+  if(!state.id.nom || !state.id.prenom){ msg.hidden=false; msg.textContent = "Indique ton nom et ton prénom tout en haut de la page avant de générer ton code."; return; }
+  var sc = {}; AUTO.forEach(function(k){ sc[k] = state.act[k] && state.act[k].locked ? state.act[k].score : null; });
+  var payload = {v:1, n:state.id.nom, p:state.id.prenom, c:state.id.classe||"", d:new Date().toISOString(), s:sc, r:state.redacDone ? state.redac : ""};
+  var json = JSON.stringify(payload);
+  var code = "RR1-"+b64e(json)+"."+fnv(SALT+json);
+  var out = document.getElementById("codeOut"); out.hidden = false; out.textContent = code;
+  document.getElementById("copyCode").hidden = false;
+  var missing = AUTO.filter(function(k){return sc[k]===null;}).length + (state.redacDone?0:1);
+  msg.hidden = false;
+  msg.textContent = missing ? "Attention : "+missing+" activité(s) non validée(s), elles compteront 0. Tu peux les terminer puis régénérer ton code." : "Toutes les activités sont faites. Copie ton code et envoie-le.";
+});
+function copyText(txt, el){
+  var done = function(){ el.textContent = "Copié ✓"; setTimeout(function(){ el.textContent = el.dataset.label; },1800); };
+  el.dataset.label = el.dataset.label || el.textContent;
+  try{ navigator.clipboard.writeText(txt).then(done,function(){ fallback(); }); }catch(e){ fallback(); }
+  function fallback(){ el.textContent = "Sélectionne le texte et copie-le (Ctrl+C)"; }
+}
+document.getElementById("copyCode").addEventListener("click",function(e){
+  var out = document.getElementById("codeOut"); copyText(out.textContent, e.target);
+  var r = document.createRange(); r.selectNodeContents(out); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+});
+
+/* ---------- espace enseignant ---------- */
+var profRows = [];
+document.getElementById("profGo").addEventListener("click",openProf);
+document.getElementById("profPass").addEventListener("keydown",function(e){ if(e.key==="Enter") openProf(); });
+function openProf(){
+  if(document.getElementById("profPass").value.trim().toUpperCase() === PROF_CODE){
+    document.getElementById("profLock").hidden = true; document.getElementById("profPanel").hidden = false;
+    try{ var s = localStorage.getItem(PROF_STORE); if(s){ var o = JSON.parse(s); document.getElementById("codesIn").value = o.codes||""; profOverrides = o.ov||{}; analyse(); } }catch(e){}
+  } else document.getElementById("profErr").hidden = false;
+}
+var profOverrides = {};
+function saveProf(){ try{ localStorage.setItem(PROF_STORE, JSON.stringify({codes:document.getElementById("codesIn").value, ov:profOverrides})); }catch(e){} }
+function decode(code){
+  var m = code.match(/^RR1-([A-Za-z0-9+/=]+)\.([0-9a-f]{8})$/);
+  if(!m) return null;
+  try{ var json = b64d(m[1]); var o = JSON.parse(json); o._valid = fnv(SALT+json)===m[2]; o._key = m[2]; return o; }catch(e){ return null; }
+}
+function analyse(){
+  var raw = document.getElementById("codesIn").value;
+  var codes = raw.match(/RR1-[A-Za-z0-9+/=]+\.[0-9a-f]{8}/g) || [];
+  var seen = {}; profRows = []; var bad = 0;
+  codes.forEach(function(c){ if(seen[c]) return; seen[c]=1; var o = decode(c); if(o) profRows.push(o); else bad++; });
+  profRows.sort(function(x,y){ return (x.n+x.p).localeCompare(y.n+y.p,"fr"); });
+  var tb = document.querySelector("#profTable tbody"), h = "";
+  profRows.forEach(function(o,idx){
+    var tot = 0; AUTO.forEach(function(k){ tot += o.s[k]||0; });
+    var pct = Math.round(tot/39*100), na = noteOf(pct);
+    o._tot = tot; o._pct = pct; o._na = na;
+    var ret = profOverrides[o._key]!==undefined ? profOverrides[o._key] : na; o._ret = ret;
+    var cell = function(k){ return o.s[k]===null||o.s[k]===undefined ? "–" : o.s[k]+"/"+maxOf(k); };
+    h += '<tr><td><strong>'+esc(o.n.toUpperCase())+' '+esc(o.p)+'</strong><br><span style="color:var(--muted)">'+esc(o.c)+'</span>'+
+      (o.r ? '<details class="redac"><summary>Réponse écrite</summary><pre>'+esc(o.r)+'</pre></details>' : '<br><span style="color:var(--muted);font-size:.85rem">A6 non rendue</span>')+'</td>'+
+      '<td class="num">'+esc(new Date(o.d).toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"}))+'</td>';
+    AUTO.forEach(function(k){ h += '<td class="num">'+cell(k)+'</td>'; });
+    h += '<td class="num">'+tot+'/39</td><td class="num">'+pct+' %</td><td class="num"><strong>'+na+'</strong></td>'+
+      '<td><input class="note-in" type="text" inputmode="numeric" id="ov_'+o._key+'" data-ov="'+o._key+'" value="'+ret+'" aria-label="Note retenue"></td>'+
+      '<td>'+(o._valid?'<span class="badge-ok">valide</span>':'<span class="badge-ko">modifié !</span>')+'</td></tr>';
+  });
+  tb.innerHTML = h || '<tr><td colspan="13">Aucun code analysé pour le moment.</td></tr>';
+  document.getElementById("profInfo").textContent = profRows.length+" élève(s)"+(bad?" · "+bad+" code(s) illisible(s)":"")+(profRows.some(function(o){return !o._valid;})?" · un code marqué « modifié » a été altéré : ne pas en tenir compte.":"");
+  saveProf();
+}
+document.getElementById("analyse").addEventListener("click",analyse);
+document.addEventListener("input",function(e){
+  var k = e.target.getAttribute && e.target.getAttribute("data-ov"); if(!k) return;
+  var v = parseInt(e.target.value,10);
+  if(v>=0 && v<=4){ profOverrides[k]=v; profRows.forEach(function(o){ if(o._key===k) o._ret=v; }); saveProf(); }
+});
+document.getElementById("clearCodes").addEventListener("click",function(){ document.getElementById("codesIn").value=""; profOverrides={}; analyse(); });
+document.getElementById("copyTable").addEventListener("click",function(e){
+  var lines = ["Nom\tPrénom\tClasse\tA1/8\tA2/6\tA3/6\tA4/6\tA5/3\tTest/10\tTotal/39\t%\tNote auto/4\tNote retenue/4\tCode"];
+  profRows.forEach(function(o){
+    var r = [o.n.toUpperCase(),o.p,o.c]; AUTO.forEach(function(k){ r.push(o.s[k]==null?"":o.s[k]); });
+    r.push(o._tot,o._pct,o._na,o._ret,o._valid?"valide":"modifié"); lines.push(r.join("\t"));
+  });
+  copyText(lines.join("\n"), e.target);
+});
+var resetArmed = false;
+document.getElementById("resetDevice").addEventListener("click",function(e){
+  var m = document.getElementById("resetMsg");
+  if(!resetArmed){ resetArmed = true; m.textContent = "Cliquez encore une fois pour confirmer."; return; }
+  try{ localStorage.removeItem(STORE); }catch(err){}
+  state = {id:{nom:"",prenom:"",classe:"1MCVA"}, act:{}, redac:"", redacDone:false};
+  ["nom","prenom"].forEach(function(f){ document.getElementById(f).value=""; });
+  document.getElementById("classe").value = "1MCVA";
+  AUTO.forEach(render); renderA6(); progress();
+  document.getElementById("codeOut").hidden = true; document.getElementById("codeMsg").hidden = true; document.getElementById("copyCode").hidden = true;
+  resetArmed = false; m.textContent = "Réponses effacées sur cet appareil.";
+});
+
+AUTO.forEach(render); renderA6(); progress();
+})();
+</script>
+
+</body>
+</html>
